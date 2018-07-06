@@ -14,14 +14,14 @@ class PostsController < ApplicationController
   def destroy
     @post = current_user.posts.find(params[:id])
     @post.destroy
-
+    render :json => { :id => @post.id }
   end
   def like
     @post = Post.find(params[:id])
     unless @post.find_like(current_user) #如果已经按过赞了，就略过不再新增
       Like.create(:user => current_user, :post => @post)
     end
-    
+
   end
   def unlike
     @post = Post.find(params[:id])
