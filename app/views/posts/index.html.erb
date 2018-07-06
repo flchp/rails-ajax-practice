@@ -71,3 +71,45 @@ $("#post-list").on('change', ".toggle-flag", function(){
   });
 });
 </script>
+<script>
+$("#post-list").on('change', ".select_sort",function(){
+  var url = $(this).data("url");
+  var that = this;
+
+  $.ajax({
+      url: url,
+      method: "PATCH",
+      dataType: "json",
+      data: {
+        post: {
+          sort_id: $(this).val()
+        }
+       },
+       beforeSend: function(){
+         $(that).after( $(' <img src="/images/ajax-loader.gif" id="ajax-loading" width="30" height="30"> ') );
+       },
+       complete: function(){
+         $("#ajax-loading").remove();
+       }
+    });
+  });
+</script>
+<script>
+
+   $(".raty").raty({
+     path: '/images/',
+     score: function() { return $(this).data('score'); },
+     click: function(score) {
+       var that = this;
+       $.ajax({
+         url: $(this).data("score-url"),
+         method: "POST",
+         data: { score: score },
+         dataType: "json",
+         success: function(data){
+           $(that).closest(".panel-body").find(".average-score").html( data["average_score"] );
+         }
+       })
+     }
+   });
+</script>
