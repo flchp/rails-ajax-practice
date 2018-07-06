@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   get "/jquery_5" => "pages#jquery_5"
   get "/jquery_6" => "pages#jquery_6"
   get "/jquery_7" => "pages#jquery_7"
-  resources :posts
+  resources :posts do
+    member do
+      post "like" => "posts#like"
+      post "unlike" => "posts#unlike"
+    end
+  end
   root "posts#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
