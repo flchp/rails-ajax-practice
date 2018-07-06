@@ -7,6 +7,9 @@ class User < ApplicationRecord
   def display_name
     self.email.split("@").first
   end
+  def is_admin?
+    role == "admin"
+  end
   has_many :likes, :dependent => :destroy
-  has_many :liked_psots, :through => :likes, :source => :post 
+  has_many :liked_psots, :through => :likes, :source => :post
 end
