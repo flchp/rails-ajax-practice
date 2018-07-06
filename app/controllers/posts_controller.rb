@@ -2,7 +2,14 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, :only => [:create, :destory]
 
   def index
-    @posts = Post.order("id DESC").all #新贴文放在前面
+    @posts = Post.order("id DESC").limit(5) #新贴文放在前面
+    if params[:max_id]
+      @posts = @posts.where("id < ?", params[:max_id])
+    end
+    respond_to do |format|
+      format.html #如果客户端要求HTML， 则回传 index.html.erb
+      format.js   #如果客户端要求 Javascript, 回传index.js.erb
+    end
   end
 
   def create
