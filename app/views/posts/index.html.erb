@@ -19,13 +19,14 @@
     evt.preventDefault();
     //this 是个特别的变量，代表触发事件的元素，使用 attr 可以读取元素的属性， 这里要拿到超连结的网址
     var url = $(this).attr("href");
+    var that = this;
     //送出Ajax
     $.ajax({
       url: url,
       method: 'DELETE',
       dataType: 'json', // 要求服务器回传json
       success: function(data){ //data就是服务器回传的 JSON 资料
-        $("#post-" + data["id"]).remove();
+        $(that).closest(".panel").remove();
       }
     })
   })
@@ -54,16 +55,17 @@ $(window).scroll(function(){
 <script>
 $("#post-list").on('change', ".toggle-flag", function(){
   var url = $(this).data("url");
+  var that = this;
   $.ajax({
     url: url,
     method: "POST",
     dataType: "json",
     success: function(data) {
       if ( data["flag_at"] ) {
-        $("#post-flag-" + data["id"]).html(data["flag_at"]);
+        $(that).closest("label").find("span").html(data["flag_at"])
       }
       else {
-        $("#post-flag-" + data["id"]).html("");
+        $(that).closest("label").find("span").html("")
       }
     }
   });
